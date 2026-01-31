@@ -35,17 +35,11 @@ gcloud builds submit --tag $IMAGE_URL --project=$PROJECT_ID
 # 4. Deploy to Cloud Run
 echo "Deploying to Cloud Run..."
 
-# Load Spotify variables from .env
-SPOTIFY_CLIENT_ID=$(grep '^SPOTIFY_CLIENT_ID=' .env | cut -d '=' -f2)
-SPOTIFY_CLIENT_SECRET=$(grep '^SPOTIFY_CLIENT_SECRET=' .env | cut -d '=' -f2)
-SPOTIFY_REFRESH_TOKEN=$(grep '^SPOTIFY_REFRESH_TOKEN=' .env | cut -d '=' -f2)
-
 gcloud run deploy $SERVICE_NAME \
     --image $IMAGE_URL \
     --platform managed \
     --region $REGION \
     --allow-unauthenticated \
-    --project=$PROJECT_ID \
-    --set-env-vars "SPOTIFY_CLIENT_ID=$SPOTIFY_CLIENT_ID,SPOTIFY_CLIENT_SECRET=$SPOTIFY_CLIENT_SECRET,SPOTIFY_REFRESH_TOKEN=$SPOTIFY_REFRESH_TOKEN"
+    --project=$PROJECT_ID
 
-echo "Deployment complete! Your service is being updated..."
+echo "Deployment complete!"

@@ -18,22 +18,21 @@
 }
 
 :root {
-	/* Light Mode (Default) */
-	--color-bg: #f3eefc;
-	--color-text: #111111;
-	--color-bg-alt: #eceaf5;
-	/* Beige-ish for sections */
-	--color-border: #e0e0e0;
+	/* Dark Mode (Default) */
+	--color-bg: #111111;
+	--color-text: #ffffff;
+	--color-bg-alt: #1a1a1a;
+	--color-border: #333333;
 
 	--font-heading: 'Aboreto', cursive;
 	--font-body: 'DM Sans', sans-serif;
 }
 
-[data-theme="dark"] {
-	--color-bg: #111111;
-	--color-text: #ffffff;
-	--color-bg-alt: #1a1a1a;
-	--color-border: #333333;
+[data-theme="light"] {
+	--color-bg: #f3eefc;
+	--color-text: #111111;
+	--color-bg-alt: #eceaf5;
+	--color-border: #e0e0e0;
 }
 
 *,

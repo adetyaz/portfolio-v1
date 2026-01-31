@@ -3,8 +3,8 @@ import { browser } from '$app/environment';
 
 type Theme = 'light' | 'dark';
 
-const userTheme = browser ? (localStorage.getItem('theme') as Theme) : 'light';
-const initialTheme = userTheme || 'light';
+const userTheme = browser ? (localStorage.getItem('theme') as Theme) : 'dark';
+const initialTheme = userTheme || 'dark';
 
 export const theme = writable<Theme>(initialTheme);
 

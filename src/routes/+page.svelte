@@ -8,6 +8,7 @@
 	import Testimonials from '$lib/components/Testimonials.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import Preloader from '$lib/components/Preloader.svelte';
+	import ScrollIndicator from '$lib/components/ScrollIndicator.svelte';
 
 	let heroAnimate = false;
 
@@ -25,6 +26,7 @@
 <main>
 	<Hero startAnimation={heroAnimate} />
 	<About />
+	<ScrollIndicator />
 	<!-- <SelectedWork /> -->
 	<Services />
 	<WorkGrid />

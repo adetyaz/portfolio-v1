@@ -4,7 +4,6 @@
 	import '$lib/gsap'; // Global GSAP setup
 	import Lenis from '$lib/components/Lenis.svelte';
 	import { theme } from '$lib/stores/theme';
-	import SpotifyWidget from '$lib/components/SpotifyWidget.svelte';
 
 	let { children } = $props();
 </script>
@@ -16,4 +15,3 @@
 <Lenis>
 	{@render children()}
 </Lenis>
-<SpotifyWidget />

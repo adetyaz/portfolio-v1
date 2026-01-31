@@ -24,12 +24,11 @@ FROM node:20-slim AS runner
 WORKDIR /app
 
 # Copy the build output from the builder stage
-# adapter-node defaults to the 'build' directory
 COPY --from=builder /app/build ./build
-COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/package*.json ./
 
-# If you have external dependencies needed at runtime, install them here
-# RUN npm ci --omit=dev
+# Install production dependencies
+RUN npm ci --omit=dev
 
 # Set environment variables
 ENV NODE_ENV=production
