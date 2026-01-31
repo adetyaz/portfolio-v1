@@ -1,4 +1,8 @@
-import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN } from '$env/static/private';
+import { env } from '$env/dynamic/private';
+
+const SPOTIFY_CLIENT_ID = env.SPOTIFY_CLIENT_ID;
+const SPOTIFY_CLIENT_SECRET = env.SPOTIFY_CLIENT_SECRET;
+const SPOTIFY_REFRESH_TOKEN = env.SPOTIFY_REFRESH_TOKEN;
 
 const basic = Buffer.from(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`).toString('base64');
 const NOW_PLAYING_ENDPOINT = `https://api.spotify.com/v1/me/player/currently-playing`;
@@ -16,6 +20,11 @@ const getAccessToken = async () => {
             refresh_token: SPOTIFY_REFRESH_TOKEN
         })
     });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Spotify Auth Error: ${JSON.stringify(errorData)}`);
+    }
 
     return response.json();
 };

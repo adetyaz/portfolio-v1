@@ -2,6 +2,10 @@
 	import { page } from '$app/stores';
 	import { projects } from '$lib/data/projects';
 	import { error } from '@sveltejs/kit';
+	import { onMount } from 'svelte';
+	import { gsap } from '$lib/gsap';
+	import ParallaxImage from '$lib/components/ParallaxImage.svelte';
+	import WalkingCarousel from '$lib/components/WalkingCarousel.svelte';
 
 	// Get the slug from the URL
 	$: slug = $page.params.slug;
@@ -21,14 +25,96 @@
 	$: if (slug && !project) {
 		// Just show basic error or redirect logic if needed, but for now we assume valid links
 	}
+
+	onMount(() => {
+		// Header text reveal
+		const h1 = document.querySelector('.work-header h1');
+		if (h1) {
+			const text = h1.textContent || '';
+			h1.innerHTML = text
+				.split('')
+				.map(
+					(char) =>
+						`<span class="char-wrapper"><span class="reveal-char-header">${char === ' ' ? '&nbsp;' : char}</span></span>`
+				)
+				.join('');
+
+			gsap.from('.reveal-char-header', {
+				y: '100%',
+				opacity: 0,
+				duration: 1,
+				ease: 'power4.out',
+				stagger: 0.02,
+				delay: 0.3
+			});
+		}
+
+		// Block reveal for meta values
+		const metaValues = document.querySelectorAll('.value, .value-list');
+		metaValues.forEach((target) => {
+			const originalContent = target.innerHTML;
+			target.innerHTML = `<span class="reveal-text">${originalContent}</span>`;
+
+			const block = document.createElement('div');
+			block.className = 'reveal-block-work';
+			target.appendChild(block);
+
+			const text = target.querySelector('.reveal-text');
+
+			gsap.set(target, {
+				position: 'relative',
+				display: 'inline-block',
+				overflow: 'hidden',
+				opacity: 0
+			});
+
+			gsap.set(text, {
+				display: 'inline-block'
+			});
+
+			gsap.set(block, {
+				position: 'absolute',
+				top: 0,
+				left: 0,
+				width: '100%',
+				height: '100%',
+				background: 'var(--color-text)',
+				zIndex: 2
+			});
+
+			const tl = gsap.timeline({
+				scrollTrigger: {
+					trigger: target,
+					start: 'top 90%',
+					toggleActions: 'play none none reverse'
+				}
+			});
+
+			tl.set(text, { opacity: 0 })
+				.set(target, { opacity: 1 })
+				.fromTo(
+					block,
+					{ scaleX: 0, transformOrigin: 'left' },
+					{ scaleX: 1, duration: 0.5, ease: 'power3.inOut' }
+				)
+				.set(text, { opacity: 1 })
+				.to(block, {
+					scaleX: 0,
+					transformOrigin: 'right',
+					duration: 0.5,
+					ease: 'power3.inOut'
+				});
+		});
+	});
 </script>
 
 <svelte:head>
-	<title>{project ? project.title : 'Work'} | Tusu Chowdhury</title>
+	<title>{project ? project.title : 'Work'} | Adetayo Lasisi</title>
 </svelte:head>
 
 {#if project}
 	<main class="work-container">
+		<WalkingCarousel />
 		<header class="work-header">
 			<div class="header-top">
 				<h1>{project.title}</h1>
@@ -61,8 +147,13 @@
 						<span class="label">Development</span>
 						<div class="value-list">
 							{#if project.services}
-								{#each project.services as service}
-									<span>{service}</span>
+								{#each project.services as service, i}
+									<span class="service-item">
+										{service}
+										{#if i < project.services.length - 1}
+											<span class="separator"> - </span>
+										{/if}
+									</span>
 								{/each}
 							{:else}
 								<span>Design</span>
@@ -82,13 +173,28 @@
 
 			<!-- Right Column: Visuals -->
 			<section class="visuals-column">
-				<div class="image-container">
-					<img src={project.image} alt={project.title} />
-				</div>
-				<!-- Add more images here if available in the future -->
-				<div class="image-container secondary">
-					<img src={project.image} alt="Detail view" style="filter: brightness(0.9);" />
-				</div>
+				{#if project.images && project.images.length > 0}
+					{#each project.images as img, i}
+						<div
+							class="image-container"
+							style="background-color: {project.bgcolor || 'var(--color-bg-alt)'}"
+						>
+							<div class="img-wrapper-full">
+								<img src={img} alt="{project.title} view {i + 1}" />
+							</div>
+						</div>
+					{/each}
+				{:else}
+					<!-- Fallback if no images array, though data ensures it -->
+					<div
+						class="image-container"
+						style="background-color: {project.bgcolor || 'var(--color-bg-alt)'}"
+					>
+						<div class="img-wrapper-full">
+							<img src={project.image} alt={project.title} />
+						</div>
+					</div>
+				{/if}
 			</section>
 		</div>
 
@@ -107,8 +213,8 @@
 	.work-container {
 		padding-top: 120px;
 		min-height: 100vh;
-		background-color: #fff; /* Light theme like the image */
-		color: #111;
+		background-color: var(--color-bg);
+		color: var(--color-text);
 		font-family: var(--font-body, sans-serif);
 	}
 
@@ -121,7 +227,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
-		border-bottom: 1px solid #eee;
+		border-bottom: 1px solid var(--color-border);
 		padding-bottom: 2rem;
 	}
 
@@ -130,24 +236,38 @@
 		font-weight: 600;
 		margin: 0;
 		text-transform: capitalize;
+		overflow: hidden;
+	}
+
+	:global(.char-wrapper) {
+		display: inline-block;
+		overflow: hidden;
+		vertical-align: top;
+	}
+
+	:global(.reveal-char-header) {
+		display: inline-block;
+		will-change: transform;
 	}
 
 	.meta-row {
 		flex-grow: 1;
 		margin-left: 2rem;
-		color: #666;
+		color: var(--color-text);
+		opacity: 0.6;
 		text-transform: uppercase;
 		font-size: 0.9rem;
 	}
 
 	.year {
 		font-size: 0.9rem;
-		color: #666;
+		color: var(--color-text);
+		opacity: 0.6;
 	}
 
 	.content-grid {
 		display: grid;
-		grid-template-columns: 1fr 2fr; /* 1/3 detail, 2/3 image */
+		grid-template-columns: 1fr 1fr;
 		gap: 4rem;
 		padding: 0 4rem 6rem;
 	}
@@ -155,7 +275,7 @@
 	/* Details Column */
 	.details-column {
 		position: sticky;
-		top: 140px; /* Offset for header */
+		top: 140px;
 		height: fit-content;
 		display: flex;
 		flex-direction: column;
@@ -173,16 +293,18 @@
 		grid-template-columns: 120px 1fr;
 		align-items: flex-start;
 		font-size: 0.9rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	.label {
-		font-weight: 600; /* Bold labels like the image */
-		color: #111;
+		font-weight: 600;
+		color: var(--color-text);
 	}
 
 	.value {
 		text-transform: uppercase;
-		color: #111;
+		color: var(--color-text);
 	}
 
 	.link {
@@ -191,9 +313,18 @@
 
 	.value-list {
 		display: flex;
-		flex-direction: column;
+		flex-wrap: wrap;
+		flex-direction: row;
+		gap: 0.3rem; /* Reduced gap since separator adds space */
 		text-transform: uppercase;
-		color: #666; /* Subtler for list */
+		color: var(--color-text);
+		opacity: 0.8;
+		line-height: 1.6;
+	}
+
+	.separator {
+		opacity: 0.5;
+		margin: 0 0.5rem; /* Add clear space around hyphen */
 	}
 
 	.description {
@@ -210,15 +341,15 @@
 		width: 50px;
 		height: 50px;
 		border-radius: 50%;
-		background-color: #f0f0f0;
-		color: #111;
+		background-color: var(--color-text);
+		color: var(--color-bg);
 		font-size: 1.5rem;
 		text-decoration: none;
-		transition: background-color 0.3s;
+		transition: opacity 0.3s;
 	}
 
 	.back-button:hover {
-		background-color: #e0e0e0;
+		opacity: 0.8;
 	}
 
 	/* Visuals Column */
@@ -230,30 +361,55 @@
 
 	.image-container {
 		width: 100%;
-		background-color: #f4f4f0; /* Beige-ish background like image */
-		padding: 4rem;
-		aspect-ratio: 4/3;
+		background-color: var(--color-bg-alt);
+		aspect-ratio: 16/10; /* Wider aspect ratio */
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.img-wrapper-full {
+		width: 100%;
+		height: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
 
-	.image-container img {
-		max-width: 90%;
-		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-		object-fit: cover;
+	/* Force standard image behavior even if ParallaxImage is used, 
+	   but ideally we should swap to standard img for perfect control */
+	:global(.img-wrapper-full img),
+	:global(.img-wrapper-full .parallax-image) {
+		width: 85% !important;
+		max-width: 85% !important;
+		height: auto !important;
+		max-height: 85% !important;
+		object-fit: contain !important;
+		position: relative !important; /* Override parallax absolute */
+		top: auto !important;
+		border-radius: 4px;
+		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+		display: block;
+		margin: 0 auto;
+	}
+
+	:global(.reveal-block-work) {
+		pointer-events: none;
 	}
 
 	/* Footer Nav */
 	.next-project {
 		padding: 4rem;
-		border-top: 1px solid #eee;
+		border-top: 1px solid var(--color-border);
 		text-align: right;
 	}
 
 	.next-project a {
 		text-decoration: none;
-		color: #111;
+		color: var(--color-text);
 		display: inline-block;
 		transition: transform 0.3s;
 	}
@@ -265,7 +421,8 @@
 	.next-project .label {
 		display: block;
 		font-size: 0.9rem;
-		color: #999;
+		color: var(--color-text);
+		opacity: 0.6;
 		margin-bottom: 0.5rem;
 	}
 

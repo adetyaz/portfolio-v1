@@ -1,19 +1,141 @@
 <script lang="ts">
-	/* eslint-disable svelte/no-at-html-tags */
+	import { onMount } from 'svelte';
+	import { gsap, ScrollTrigger } from '$lib/gsap';
+
+	import catGif from '$lib/assets/lottie/Loader cat.gif';
+
+	onMount(() => {
+		// 1. Text Reveal for Roles
+		const roles = document.querySelectorAll('.role');
+		roles.forEach((role) => {
+			const text = role.textContent || '';
+			role.innerHTML = text
+				.split('')
+				.map(
+					(char) =>
+						`<span class="char-wrapper"><span class="reveal-char-about">${char === ' ' ? '&nbsp;' : char}</span></span>`
+				)
+				.join('');
+
+			gsap.from(role.querySelectorAll('.reveal-char-about'), {
+				y: '100%',
+				opacity: 0,
+				duration: 0.8,
+				ease: 'power3.out',
+				stagger: 0.01,
+				scrollTrigger: {
+					trigger: role,
+					start: 'top 90%'
+				}
+			});
+		});
+
+		// 2. Block Reveal for Dates and Company
+		const blockTargets = document.querySelectorAll('.dates, .company');
+		blockTargets.forEach((target) => {
+			const originalContent = target.innerHTML;
+			target.innerHTML = `<span class="reveal-text">${originalContent}</span>`;
+
+			const block = document.createElement('div');
+			block.className = 'reveal-block-about';
+			target.appendChild(block);
+
+			const text = target.querySelector('.reveal-text');
+
+			gsap.set(target, {
+				position: 'relative',
+				display: 'inline-block',
+				overflow: 'hidden',
+				opacity: 0
+			});
+
+			gsap.set(text, {
+				display: 'inline-block'
+			});
+
+			gsap.set(block, {
+				position: 'absolute',
+				top: 0,
+				left: 0,
+				width: '100%',
+				height: '100%',
+				background: 'var(--color-text)', // Dynamic opposite color
+				zIndex: 2
+			});
+
+			const tl = gsap.timeline({
+				scrollTrigger: {
+					trigger: target,
+					start: 'top 90%',
+					toggleActions: 'play none none reverse'
+				}
+			});
+
+			tl.set(text, { opacity: 0 })
+				.set(target, { opacity: 1 })
+				.fromTo(
+					block,
+					{ scaleX: 0, transformOrigin: 'left' },
+					{ scaleX: 1, duration: 0.5, ease: 'power3.inOut' }
+				)
+				.set(text, { opacity: 1 })
+				.to(block, {
+					scaleX: 0,
+					transformOrigin: 'right',
+					duration: 0.5,
+					ease: 'power3.inOut'
+				});
+		});
+
+		// 3. Text Highlight Scroll Effect for Bio
+		const bioElements = document.querySelectorAll('.bio-content h1, .motivation');
+		bioElements.forEach((el) => {
+			const text = el.textContent || '';
+			el.innerHTML = text
+				.split('')
+				.map((char) => `<span class="highlight-char">${char === ' ' ? ' ' : char}</span>`)
+				.join('');
+
+			gsap.fromTo(
+				el.querySelectorAll('.highlight-char'),
+				{
+					opacity: 0.2
+				},
+				{
+					opacity: 1,
+					stagger: 0.1,
+					ease: 'none',
+					scrollTrigger: {
+						trigger: el,
+						start: 'top 80%',
+						end: 'top 20%',
+						scrub: true
+					}
+				}
+			);
+		});
+
+		// Ensure ScrollTrigger updates after DOM modifications
+		ScrollTrigger.refresh();
+	});
 </script>
 
 <section class="about-container" id="about">
 	<div class="intro-section">
-		<div class="number-display">1</div>
+		<div class="cat-visual">
+			<img src={catGif} alt="Loading Cat" />
+		</div>
 		<div class="bio-content">
 			<h1>
 				I'm Adetayo, a Frontend Engineer specializing in building immersive web experiences. With a
 				focus on Web3 and Blockchain interfaces, I transform complex protocols into intuitive,
-				user-centric applications using modern web technologies.
+				user-centric applications. Beyond the traditional web, I am deeply skilled in architecting
+				performant browser extensions that enhance user workflows.
 			</h1>
 			<p class="motivation">
-				I'm most motivated by the intersection of design and code, crafting pixel-perfect
-				interfaces, and building scaleable applications that define the future of the web.
+				I am a builder at heart, fueled by the competitive energy of buildathons and hackathons. I'm
+				proud to have won two major Web3 hackathons, and I continually participate in buildathons to
+				push the boundaries of what's possible at the intersection of design and code.
 			</p>
 		</div>
 	</div>
@@ -21,37 +143,49 @@
 	<div class="experience-section">
 		<div class="role-list">
 			<div class="role-item">
-				<span class="dates">2023 - PRESENT</span>
-				<span class="role">SENIOR FRONTEND ENGINEER</span>
-				<span class="company">WEB3 PROTOCOL</span>
+				<div class="dates-wrapper">
+					<span class="dates">2025 - PRESENT</span>
+				</div>
+				<span class="role">FULLSTACK FRONTEND ENGINEER</span>
+				<div class="company-wrapper">
+					<span class="company">CYRENEAI</span>
+				</div>
 			</div>
 			<div class="role-item">
-				<span class="dates">2021 - 2023</span>
-				<span class="role">UI ENGINEER</span>
-				<span class="company">DEFI STARTUP</span>
+				<div class="dates-wrapper">
+					<span class="dates">2023 - 2025</span>
+				</div>
+				<span class="role">BROWSER EXTENSION ENGINEER</span>
+				<div class="company-wrapper">
+					<span class="company">NETSEPIO</span>
+				</div>
 			</div>
 			<div class="role-item">
-				<span class="dates">2019 - 2021</span>
-				<span class="role">WEB DEVELOPER</span>
-				<span class="company">AGENCY</span>
+				<div class="dates-wrapper">
+					<span class="dates">2025</span>
+				</div>
+				<span class="role">FULLSTACK FRONTEND ENGINEER</span>
+				<div class="company-wrapper">
+					<span class="company">HAILCUBEAI</span>
+				</div>
 			</div>
 			<div class="role-item">
-				<span class="dates">2018 - 2019</span>
+				<div class="dates-wrapper">
+					<span class="dates">2021 - 2024</span>
+				</div>
+				<span class="role">FULLSTACK FRONTEND ENGINEER</span>
+				<div class="company-wrapper">
+					<span class="company">LDTALENTNETWORK</span>
+				</div>
+			</div>
+			<div class="role-item">
+				<div class="dates-wrapper">
+					<span class="dates">2020 - PRESENT</span>
+				</div>
 				<span class="role">FREELANCE DEVELOPER</span>
-				<span class="company">REMOTE</span>
-			</div>
-		</div>
-	</div>
-
-	<div class="gallery-section">
-		<div class="gallery-grid">
-			<div class="gallery-item large">
-				<!-- Placeholder for Desk Setup Image -->
-				<div class="image-placeholder main-setup"></div>
-			</div>
-			<div class="gallery-item small">
-				<!-- Placeholder for Keyboard Detail Image -->
-				<div class="image-placeholder details"></div>
+				<div class="company-wrapper">
+					<span class="company">REMOTE</span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -59,8 +193,6 @@
 
 <style>
 	.about-container {
-		/* Adjusted padding for in-page section, keeping top padding for anchor offset if needed, 
-           but usually scroll-margin is better. Keeping similar spacing to original page. */
 		padding: 4rem 0;
 		background-color: var(--color-bg);
 		color: var(--color-text);
@@ -68,44 +200,37 @@
 		scroll-margin-top: 100px;
 	}
 
-	/* Intro Section */
 	.intro-section {
 		display: grid;
-		grid-template-columns: 1fr 2fr;
+		grid-template-columns: 1fr 1.5fr;
 		gap: 2rem;
 		padding: 4rem 6rem;
 		align-items: flex-start;
 	}
 
-	.number-display {
-		font-size: 15rem;
-		font-weight: 700;
-		line-height: 1;
-		color: var(--color-text);
-		font-family: var(--font-heading);
-	}
-
 	.bio-content {
+		grid-column: 2;
 		max-width: 800px;
-		padding-top: 4rem;
 	}
 
 	.bio-content h1 {
+		font-family: var(--font-body);
+		text-transform: none;
 		font-size: 1.5rem;
 		font-weight: 400;
-		line-height: 1.5;
+		line-height: 1.6;
 		margin-bottom: 2rem;
 	}
 
 	.motivation {
-		font-size: 1.5rem;
+		font-family: var(--font-body);
+		font-size: 1.2rem;
 		font-weight: 400;
-		line-height: 1.5;
+		line-height: 1.6;
 		color: var(--color-text);
 		opacity: 0.7;
 	}
 
-	/* Experience Section */
 	.experience-section {
 		padding: 4rem 6rem;
 		display: flex;
@@ -114,7 +239,7 @@
 
 	.role-list {
 		width: 100%;
-		max-width: 800px; /* Align with bio content */
+		max-width: 800px;
 	}
 
 	.role-item {
@@ -127,6 +252,7 @@
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
 		align-items: center;
+		position: relative;
 	}
 
 	.role-item::before {
@@ -137,10 +263,6 @@
 		transform: translateX(-2rem);
 	}
 
-	.role-item {
-		position: relative;
-	}
-
 	.dates {
 		color: var(--color-text);
 		opacity: 0.8;
@@ -149,6 +271,7 @@
 	.role {
 		color: var(--color-text);
 		font-weight: 700;
+		display: inline-block;
 	}
 
 	.company {
@@ -157,52 +280,17 @@
 		opacity: 0.8;
 	}
 
-	/* Gallery Section */
-	.gallery-section {
-		padding: 4rem 6rem;
-	}
-
-	.gallery-grid {
-		display: grid;
-		grid-template-columns: 1.5fr 1fr;
-		gap: 4rem;
-		align-items: flex-end;
-	}
-
-	.image-placeholder {
-		background-color: var(--color-bg-alt, #222);
-		border-radius: 4px;
-		width: 100%;
-		overflow: hidden;
-		position: relative;
-	}
-
-	.main-setup {
-		aspect-ratio: 4/3;
-		background-color: var(--color-bg-alt, #333);
-	}
-
-	.details {
-		aspect-ratio: 1/1;
-		background-color: var(--color-bg-alt, #333);
-	}
-
 	@media (max-width: 1024px) {
 		.intro-section {
 			grid-template-columns: 1fr;
 			padding: 2rem;
 		}
 
-		.number-display {
-			font-size: 8rem;
-		}
-
 		.bio-content {
-			padding-top: 0;
+			grid-column: 1;
 		}
 
-		.experience-section,
-		.gallery-section {
+		.experience-section {
 			padding: 2rem;
 		}
 
@@ -214,11 +302,6 @@
 	}
 
 	@media (max-width: 768px) {
-		.gallery-grid {
-			grid-template-columns: 1fr;
-			gap: 2rem;
-		}
-
 		.role-item {
 			display: flex;
 			flex-direction: column;
@@ -233,6 +316,60 @@
 
 		.company {
 			text-align: left;
+		}
+	}
+
+	:global(.char-wrapper) {
+		display: inline-block;
+		overflow: hidden;
+		vertical-align: top;
+	}
+
+	:global(.reveal-char-about) {
+		display: inline-block;
+		will-change: transform;
+		padding: 0.2em 0; /* Prevents top/bottom clipping */
+		margin: -0.2em 0; /* Offsets padding */
+	}
+
+	.dates-wrapper,
+	.company-wrapper {
+		display: inline-flex;
+		align-items: center;
+	}
+
+	:global(.reveal-block-about) {
+		pointer-events: none;
+	}
+
+	:global(.highlight-char) {
+		display: inline;
+		transition: opacity 0.1s ease;
+	}
+
+	.cat-visual {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.cat-visual img {
+		width: 300px; /* Increased size */
+		max-width: 100%;
+		height: auto;
+		object-fit: contain;
+	}
+
+	@media (max-width: 1024px) {
+		.cat-visual {
+			margin-bottom: 2rem;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.cat-visual {
+			display: none;
 		}
 	}
 </style>

@@ -1,10 +1,39 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { projects } from '$lib/data/projects';
+	import ParallaxImage from '$lib/components/ParallaxImage.svelte';
+	import { gsap } from '$lib/gsap';
+
+	onMount(() => {
+		const h2 = document.querySelector('.work-grid-section h2');
+		if (h2) {
+			const text = h2.textContent || '';
+			h2.innerHTML = text
+				.split('')
+				.map(
+					(char) =>
+						`<span class="char-wrapper"><span class="reveal-char-work">${char === ' ' ? '&nbsp;' : char}</span></span>`
+				)
+				.join('');
+
+			gsap.from('.reveal-char-work', {
+				y: '100%',
+				opacity: 0,
+				duration: 1.2,
+				ease: 'power4.out',
+				stagger: 0.05,
+				scrollTrigger: {
+					trigger: '.work-grid-section',
+					start: 'top 80%'
+				}
+			});
+		}
+	});
 </script>
 
 <section class="work-grid-section" id="work">
 	<div class="section-header">
-		<h2>WORKS</h2>
+		<h2>SELECTED WORKS</h2>
 	</div>
 	<div class="grid-container">
 		{#each projects as project, i}
@@ -22,8 +51,11 @@
 					class="image-container"
 					style="background-color: {project.bgcolor || '#eee'}"
 				>
-					<div class="img-wrapper">
+					<div class="img-wrapper-full">
 						<img src={project.image} alt={project.title} />
+					</div>
+					<div class="overlay">
+						<span class="view-btn">View Project</span>
 					</div>
 				</a>
 			</article>
@@ -48,10 +80,24 @@
 
 	h2 {
 		font-family: var(--font-heading);
-		font-size: 2rem;
+		font-size: 1.7rem;
 		font-weight: 700;
 		letter-spacing: 0.05em;
 		margin: 0;
+		overflow: hidden;
+	}
+
+	:global(.char-wrapper) {
+		display: inline-block;
+		overflow: hidden;
+		vertical-align: top;
+	}
+
+	:global(.reveal-char-work) {
+		display: inline-block;
+		will-change: transform;
+		padding: 0.15em 0;
+		margin: -0.15em 0;
 	}
 
 	.grid-container {
@@ -97,36 +143,46 @@
 
 	.image-container {
 		width: 100%;
-		aspect-ratio: 1/1; /* Square ratio as seen in image */
+		aspect-ratio: 16/10; /* Wider aspect ratio better for screenshots */
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		transition: transform 0.4s ease;
 		overflow: hidden;
 		cursor: pointer;
+		position: relative;
 	}
 
 	.image-container:hover {
 		transform: scale(0.98);
-		border-radius: 4px;
 	}
 
-	.img-wrapper {
-		width: 70%; /* Smaller image inside the container for the "framed" look */
-		height: 60%;
+	.img-wrapper-full {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		overflow: hidden;
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 		transition: transform 0.6s ease;
 	}
 
-	img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
+	/* Target key image styles to blend seamlessly */
+	.img-wrapper-full img {
+		width: 85%;
+		max-width: 85%;
+		height: auto;
+		max-height: 85%;
+		object-fit: contain;
+		border-radius: 4px;
+		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08); /* Subtle shadow for depth */
+		display: block;
+		margin: 0 auto; /* Force horizontal centering */
 	}
 
-	.image-container:hover .img-wrapper {
-		transform: scale(1.05);
+	.image-container:hover .img-wrapper-full img {
+		transform: scale(1.02);
+		transition: transform 0.6s ease;
 	}
 
 	/* Responsive adjustments */
@@ -145,5 +201,53 @@
 		.work-grid-section {
 			padding: 2rem;
 		}
+	}
+
+	.overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.4);
+		opacity: 0;
+		transition: opacity 0.4s ease;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 2;
+	}
+
+	.image-container:hover .overlay {
+		opacity: 1;
+	}
+
+	.view-btn {
+		background-color: #fff;
+		color: #000;
+		padding: 1rem 2rem;
+		border-radius: 50px;
+		font-family: var(--font-body);
+		font-weight: 700;
+		font-size: 0.9rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		transform: translateY(20px);
+		opacity: 0;
+		transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+	}
+
+	.image-container:hover .view-btn {
+		transform: translateY(0);
+		opacity: 1;
+	}
+
+	.img-wrapper-full img {
+		transition: transform 0.6s ease;
+	}
+
+	.image-container:hover .img-wrapper-full img {
+		transform: scale(1.05); /* Slight zoom on image too */
 	}
 </style>
