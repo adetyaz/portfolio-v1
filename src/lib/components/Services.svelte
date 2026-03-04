@@ -1,12 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+	import { gsap, ScrollTrigger } from '$lib/gsap';
 	import cardImageOne from '$lib/assets/images/row-1-column-1.png';
 	import cardImageTwo from '$lib/assets/images/row-1-column-2.png';
 	import cardImageThree from '$lib/assets/images/row-1-column-3.png';
-
-	gsap.registerPlugin(ScrollTrigger);
 
 	const services = [
 		{
