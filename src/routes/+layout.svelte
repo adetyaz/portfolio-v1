@@ -3,7 +3,7 @@
 	import '../app.css';
 	import '$lib/gsap'; // Global GSAP setup
 	import Lenis from '$lib/components/Lenis.svelte';
-	import { theme } from '$lib/stores/theme';
+	// import { theme } from '$lib/stores/theme';
 
 	let { children } = $props();
 </script>

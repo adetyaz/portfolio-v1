@@ -1,10 +1,10 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Draggable } from 'gsap/dist/Draggable';
+// import { Draggable } from 'gsap/dist/Draggable';
 
 // Register plugins globally
 if (typeof window !== 'undefined') {
-	gsap.registerPlugin(ScrollTrigger, Draggable);
+	gsap.registerPlugin(ScrollTrigger);
 }
 
 // Set global defaults if needed
@@ -13,4 +13,4 @@ gsap.defaults({
 	ease: 'power2.out'
 });
 
-export { gsap, ScrollTrigger, Draggable };
+export { gsap, ScrollTrigger};
