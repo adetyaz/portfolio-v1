@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { gsap, ScrollTrigger } from '$lib/gsap';
+	import { gsap } from '$lib/gsap';
 
 	let {
 		src,

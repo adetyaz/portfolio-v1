@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { gsap, ScrollTrigger } from '$lib/gsap';
+	import { gsap } from '$lib/gsap';
 	import Lottie from 'lottie-web';
 	import boatJson from '$lib/assets/lottie/passing boat.json';
 
