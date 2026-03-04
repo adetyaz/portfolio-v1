@@ -8,19 +8,19 @@
 	const services = [
 		{
 			id: '01',
-			title: 'Product &\nVisual Design',
+			title: ['Product &', 'Visual Design'],
 			description:
 				'Crafting intuitive and engaging user experiences through research-driven design and visual storytelling. I bring ideas to life with pixel-perfect precision.'
 		},
 		{
 			id: '02',
-			title: 'Frontend\nEngineering',
+			title: ['Frontend', 'Engineering'],
 			description:
 				'Building robust, scaleable applications using modern technologies like React, Svelte, and GSAP. Bridge the gap between design and code seamlessly.'
 		},
 		{
 			id: '03',
-			title: 'Web3\nInterfaces',
+			title: ['Web3', 'Interfaces'],
 			description:
 				'Designing and developing seamless interfaces for decentralized applications. Making complex blockchain interactions feel simple and intuitive.'
 		}
@@ -195,31 +195,31 @@
 	<div class="card-container" bind:this={cardContainer}>
 		<div class="card" id="card-1" bind:this={cardOne}>
 			<div class="card-front">
-				<img src={cardImageOne} alt={services[0].title} />
+				<img src={cardImageOne} alt={services[0].title.join(' ')} />
 			</div>
 			<div class="card-back">
 				<span>({services[0].id})</span>
-				<p class="service-title">{@html services[0].title.replace(/\n/g, '<br>')}</p>
+				<p class="service-title">{services[0].title.join('<br>')}</p>
 				<p class="service-description">{services[0].description}</p>
 			</div>
 		</div>
 		<div class="card" id="card-2" bind:this={cardTwo}>
 			<div class="card-front">
-				<img src={cardImageTwo} alt={services[1].title} />
+				<img src={cardImageTwo} alt={services[1].title.join(' ')} />
 			</div>
 			<div class="card-back">
 				<span>({services[1].id})</span>
-				<p class="service-title">{@html services[1].title.replace(/\n/g, '<br>')}</p>
+				<p class="service-title">{services[1].title.join('<br>')}</p>
 				<p class="service-description">{services[1].description}</p>
 			</div>
 		</div>
 		<div class="card" id="card-3" bind:this={cardThree}>
 			<div class="card-front">
-				<img src={cardImageThree} alt={services[2].title} />
+				<img src={cardImageThree} alt={services[2].title.join(' ')} />
 			</div>
 			<div class="card-back">
 				<span>({services[2].id})</span>
-				<p class="service-title">{@html services[2].title.replace(/\n/g, '<br>')}</p>
+				<p class="service-title">{services[2].title.join('<br>')}</p>
 				<p class="service-description">{services[2].description}</p>
 			</div>
 		</div>
