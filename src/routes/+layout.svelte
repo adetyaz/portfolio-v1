@@ -1,7 +1,7 @@
 <script lang="ts">
 	import favicon from '$lib/assets/favicon.ico';
 	import '../app.css';
-	import '$lib/gsap'; // Global GSAP setup
+
 	import Lenis from '$lib/components/Lenis.svelte';
 	// import { theme } from '$lib/stores/theme';
 

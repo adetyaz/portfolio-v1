@@ -1,32 +1,28 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { projects } from '$lib/data/projects';
-	import { error } from '@sveltejs/kit';
 	import { onMount } from 'svelte';
-	import { gsap } from '$lib/gsap';
-	import ParallaxImage from '$lib/components/ParallaxImage.svelte';
+	import { resolve } from '$app/paths';
 	import WalkingCarousel from '$lib/components/WalkingCarousel.svelte';
 
-	// Get the slug from the URL
-	$: slug = $page.params.slug;
-
-	// Find the project data
-	$: project = projects.find((p) => p.slug === slug);
-
-	// Find next project
-	$: currentIndex = projects.findIndex((p) => p.slug === slug);
-	$: nextProject =
+	let project = $derived.by(() => projects.find((p) => p.slug === page.params.slug));
+	let currentIndex = $derived.by(() => projects.findIndex((p) => p.slug === page.params.slug));
+	let nextProject = $derived.by(() =>
 		currentIndex !== -1 && currentIndex < projects.length - 1
 			? projects[currentIndex + 1]
-			: projects[0];
+			: projects[0]
+	);
 
-	// Handle 404
-	// Note: In a real SvelteKit load function this would be better, but doing it clientside for simplicity as allowed.
-	$: if (slug && !project) {
-		// Just show basic error or redirect logic if needed, but for now we assume valid links
-	}
+	onMount(async () => {
+		// Only load and use GSAP in browser context
+		if (typeof window === 'undefined') return;
 
-	onMount(() => {
+		const gsapModule = await import('gsap');
+		const gsap = gsapModule.default;
+
+		const stModule = await import('gsap/ScrollTrigger');
+		gsap.registerPlugin(stModule.default);
+
 		// Header text reveal
 		const h1 = document.querySelector('.work-header h1');
 		if (h1) {
@@ -137,7 +133,12 @@
 					</div>
 					<div class="meta-item">
 						<span class="label">Live preview</span>
-						<a href={project.liveUrl || '#'} class="value link">{project.liveUrl || 'N/A'}</a>
+						<a
+							href={project.liveUrl ? resolve(project.liveUrl) : '#'}
+							class="value link"
+							target="_blank"
+							rel="noopener noreferrer">{project.liveUrl || 'N/A'}</a
+						>
 					</div>
 					<div class="meta-item">
 						<span class="label">Date</span>
@@ -147,7 +148,7 @@
 						<span class="label">Development</span>
 						<div class="value-list">
 							{#if project.services}
-								{#each project.services as service, i}
+								{#each project.services as service, i (service)}
 									<span class="service-item">
 										{service}
 										{#if i < project.services.length - 1}
@@ -166,7 +167,7 @@
 					<p>{project.description || 'No description available.'}</p>
 				</div>
 
-				<a href="/#work" class="back-button">
+				<a href={resolve('/#work')} class="back-button">
 					<span class="arrow">←</span>
 				</a>
 			</aside>
@@ -174,7 +175,7 @@
 			<!-- Right Column: Visuals -->
 			<section class="visuals-column">
 				{#if project.images && project.images.length > 0}
-					{#each project.images as img, i}
+					{#each project.images as img, i (i)}
 						<div
 							class="image-container"
 							style="background-color: {project.bgcolor || 'var(--color-bg-alt)'}"
@@ -199,7 +200,7 @@
 		</div>
 
 		<footer class="next-project">
-			<a href="/work/{nextProject.slug}">
+			<a href={resolve(`/work/${nextProject.slug}`)}>
 				<span class="label">Next Project</span>
 				<span class="title">{nextProject.title}</span>
 			</a>

@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { gsap, ScrollTrigger } from '$lib/gsap';
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
 
 	import catGif from '$lib/assets/lottie/Loader cat.gif';
 

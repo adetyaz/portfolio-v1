@@ -2,13 +2,18 @@
 	import { onMount } from 'svelte';
 	import { theme } from '$lib/stores/theme';
 	import { lenisStore } from '$lib/stores/lenis';
-	import { gsap } from '$lib/gsap';
-	import Lottie from 'lottie-web';
+
+	import Lottie, { type AnimationItem } from 'lottie-web';
 	import toggleJson from '$lib/assets/lottie/Toogle.json';
+
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
 
 	let isMenuOpen = $state(false);
 	let lottieContainer: HTMLElement;
-	let toggleAnim: any;
+	let toggleAnim: AnimationItem | undefined;
 	let lottieReady = $state(false);
 	let lastTheme = $state($theme);
 

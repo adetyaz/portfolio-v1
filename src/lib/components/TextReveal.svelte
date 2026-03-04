@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { gsap } from '$lib/gsap';
+	import gsap from 'gsap';
 
 	let { text = '', class: className = '', stagger = 0.02, duration = 1.2 } = $props();
 
@@ -28,7 +28,7 @@
 </script>
 
 <div bind:this={container} class="reveal-container {className}">
-	{#each words as word}
+	{#each words as word, i (i)}
 		<span class="reveal-wrapper">
 			<span class="reveal-word">{word}&nbsp;</span>
 		</span>

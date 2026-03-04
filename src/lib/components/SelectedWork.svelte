@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { projects } from '$lib/data/projects';
+	import { resolve } from '$app/paths';
 </script>
 
 <section class="selected-work" id="work">
@@ -8,9 +9,9 @@
 	</div>
 
 	<div class="gallery">
-		{#each projects as project, i}
+		{#each projects as project, i (project.slug)}
 			<div class="project-card item-{i}">
-				<a href="/work/{project.slug}" class="image-wrapper">
+				<a href={resolve(`/work/${project.slug}`)} class="image-wrapper">
 					<img src={project.image} alt={project.title} />
 				</a>
 				<div class="project-info">

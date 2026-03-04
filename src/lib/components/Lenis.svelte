@@ -2,8 +2,13 @@
 	import { onMount } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
 	import Lenis from 'lenis';
-	import { gsap, ScrollTrigger } from '$lib/gsap';
+
 	import { lenisStore } from '$lib/stores/lenis';
+
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
 
 	let { children } = $props();
 	let lenis: Lenis | null = null;

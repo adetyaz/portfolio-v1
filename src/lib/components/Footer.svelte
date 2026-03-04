@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { gsap } from '$lib/gsap';
+
 	import { lenisStore } from '$lib/stores/lenis';
 	import Lottie from 'lottie-web';
 	import circleMorphStr from '$lib/assets/lottie/Circle Shape Morphing animation.json';
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
 
 	let circleContainer: HTMLElement;
 

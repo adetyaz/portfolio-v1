@@ -202,7 +202,7 @@
 			</div>
 			<div class="card-back">
 				<span>({services[0].id})</span>
-				<p class="service-title">{services[0].title.join('<br>')}</p>
+				<p class="service-title">{@html services[0].title.join('<br>')}</p>
 				<p class="service-description">{services[0].description}</p>
 			</div>
 		</div>
@@ -212,7 +212,7 @@
 			</div>
 			<div class="card-back">
 				<span>({services[1].id})</span>
-				<p class="service-title">{services[1].title.join('<br>')}</p>
+				<p class="service-title">{@html services[1].title.join('<br>')}</p>
 				<p class="service-description">{services[1].description}</p>
 			</div>
 		</div>
@@ -222,7 +222,7 @@
 			</div>
 			<div class="card-back">
 				<span>({services[2].id})</span>
-				<p class="service-title">{services[2].title.join('<br>')}</p>
+				<p class="service-title">{@html services[2].title.join('<br>')}</p>
 				<p class="service-description">{services[2].description}</p>
 			</div>
 		</div>

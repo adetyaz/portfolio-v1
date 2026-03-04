@@ -2,8 +2,11 @@
 	import { onMount } from 'svelte';
 	import { tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
-	import { gsap } from '$lib/gsap';
+import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+
+	gsap.registerPlugin(ScrollTrigger);
 	let { oncomplete }: { oncomplete?: () => void } = $props();
 
 	// Progress store
@@ -107,7 +110,7 @@
 <div class="preloader" bind:this={container}>
 	<div class="preloader-content">
 		<div class="preloader-quote">
-			{#each quoteLines as line}
+			{#each quoteLines as line, i (i)}
 				<div class="preloader-quote-line">
 					<span class="reveal-text-quote">{line}</span>
 					<div class="reveal-block-quote"></div>

@@ -2,9 +2,13 @@
 	import { onMount, tick } from 'svelte';
 	import Header from './Header.svelte';
 	import ParallaxImage from '$lib/components/ParallaxImage.svelte';
-	import { gsap } from '$lib/gsap';
+
 	import headShot from '$lib/assets/images/portfolio.png';
-	import Lottie from 'lottie-web';
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
+	// import Lottie from 'lottie-web';
 
 	let { startAnimation = false }: { startAnimation?: boolean } = $props();
 

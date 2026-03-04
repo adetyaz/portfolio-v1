@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { gsap } from '$lib/gsap';
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 	import Lottie from 'lottie-web';
 	import boatJson from '$lib/assets/lottie/passing boat.json';
+
+	gsap.registerPlugin(ScrollTrigger);
 
 	let lottieContainer: HTMLElement;
 	let textTarget: HTMLElement;

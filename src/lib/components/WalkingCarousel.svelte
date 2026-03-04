@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { gsap } from '$lib/gsap';
+
 	import Lottie from 'lottie-web';
 	import walkJson from '$lib/assets/lottie/Groovy Walk Cycle.json';
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
 
 	let container = $state<HTMLElement>();
 	let lottieInstance: any;

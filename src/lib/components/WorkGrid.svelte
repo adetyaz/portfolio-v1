@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { projects } from '$lib/data/projects';
-	import ParallaxImage from '$lib/components/ParallaxImage.svelte';
-	import { gsap } from '$lib/gsap';
+	import { resolve } from '$app/paths';
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+
+	gsap.registerPlugin(ScrollTrigger);
 
 	onMount(() => {
 		const h2 = document.querySelector('.work-grid-section h2');
@@ -36,7 +40,7 @@
 		<h2>SELECTED WORKS</h2>
 	</div>
 	<div class="grid-container">
-		{#each projects as project, i}
+		{#each projects as project (project.id)}
 			<article class="project-card">
 				<header class="card-header">
 					<h3>{project.title}</h3>
@@ -47,7 +51,7 @@
 					</div>
 				</header>
 				<a
-					href="/work/{project.slug}"
+					href={resolve(`/work/${project.slug}`)}
 					class="image-container"
 					style="background-color: {project.bgcolor || '#eee'}"
 				>
