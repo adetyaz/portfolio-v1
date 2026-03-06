@@ -11,7 +11,7 @@ const config = {
 
 	vite: {
 		ssr: {
-			noExternal: ['gsap']
+			noExternal: ['gsap', 'ScrollTrigger', 'ScrollToPlugin']
 		}
 	}
 };
