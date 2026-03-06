@@ -3,8 +3,6 @@
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-	gsap.registerPlugin(ScrollTrigger);
-
 	let {
 		src,
 		alt,
@@ -17,6 +15,7 @@
 	let image: HTMLImageElement;
 
 	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
 		if (!container || !image) return;
 
 		// Create the parallax animation
