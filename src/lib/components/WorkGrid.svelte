@@ -5,10 +5,8 @@
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-
-	gsap.registerPlugin(ScrollTrigger);
-
 	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
 		const h2 = document.querySelector('.work-grid-section h2');
 		if (h2) {
 			const text = h2.textContent || '';

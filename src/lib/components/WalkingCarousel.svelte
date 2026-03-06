@@ -6,12 +6,11 @@
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-	gsap.registerPlugin(ScrollTrigger);
-
 	let container = $state<HTMLElement>();
 	let lottieInstance: any;
 
 	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
 		if (!container) return;
 
 		const target = container as gsap.TweenTarget;

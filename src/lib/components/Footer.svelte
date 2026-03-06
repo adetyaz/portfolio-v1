@@ -7,11 +7,11 @@
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-	gsap.registerPlugin(ScrollTrigger);
-
 	let circleContainer: HTMLElement;
 
 	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
+
 		const h2s = document.querySelectorAll('.footer h2');
 		h2s.forEach((h2, i) => {
 			const text = h2.textContent || '';

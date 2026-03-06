@@ -7,7 +7,6 @@
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-	gsap.registerPlugin(ScrollTrigger);
 	// import Lottie from 'lottie-web';
 
 	let { startAnimation = false }: { startAnimation?: boolean } = $props();
@@ -160,6 +159,7 @@
 	}
 
 	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
 		// Initialize splitting on mount just in case
 		prepareSplits();
 

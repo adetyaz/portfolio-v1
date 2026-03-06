@@ -8,12 +8,11 @@
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-	gsap.registerPlugin(ScrollTrigger);
-
 	let { children } = $props();
 	let lenis: Lenis | null = null;
 
 	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
 		// Initialize Lenis
 		lenis = new Lenis({
 			duration: 1.2,

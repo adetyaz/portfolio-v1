@@ -3,11 +3,10 @@
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-	gsap.registerPlugin(ScrollTrigger);
-
 	import catGif from '$lib/assets/lottie/Loader cat.gif';
 
 	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
 		// 1. Text Reveal for Roles
 		const roles = document.querySelectorAll('.role');
 		roles.forEach((role) => {

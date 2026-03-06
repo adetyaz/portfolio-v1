@@ -6,13 +6,12 @@
 	import Lottie from 'lottie-web';
 	import boatJson from '$lib/assets/lottie/passing boat.json';
 
-	gsap.registerPlugin(ScrollTrigger);
-
 	let lottieContainer: HTMLElement;
 	let textTarget: HTMLElement;
 	let revealBlock: HTMLElement;
 
 	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
 		// Init Lottie
 		const anim = Lottie.loadAnimation({
 			container: lottieContainer,

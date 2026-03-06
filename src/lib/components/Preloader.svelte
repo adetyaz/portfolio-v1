@@ -2,11 +2,9 @@
 	import { onMount } from 'svelte';
 	import { tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
-import gsap from 'gsap';
+	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-
-	gsap.registerPlugin(ScrollTrigger);
 	let { oncomplete }: { oncomplete?: () => void } = $props();
 
 	// Progress store
@@ -25,6 +23,7 @@ import gsap from 'gsap';
 	];
 
 	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
 		// Prevent scrolling during load
 		document.body.style.overflow = 'hidden';
 

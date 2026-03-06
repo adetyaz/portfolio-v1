@@ -9,8 +9,6 @@
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-	gsap.registerPlugin(ScrollTrigger);
-
 	let isMenuOpen = $state(false);
 	let lottieContainer: HTMLElement;
 	let toggleAnim: AnimationItem | undefined;
@@ -34,6 +32,7 @@
 	}
 
 	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
 		// Initialize Lottie
 		if (lottieContainer) {
 			toggleAnim = Lottie.loadAnimation({

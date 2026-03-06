@@ -6,8 +6,6 @@
 	import cardImageTwo from '$lib/assets/images/row-1-column-2.png';
 	import cardImageThree from '$lib/assets/images/row-1-column-3.png';
 
-	gsap.registerPlugin(ScrollTrigger);
-
 	const services = [
 		{
 			id: '01',
@@ -171,6 +169,7 @@
 	}
 
 	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
 		initAnimation();
 
 		// Handle resize
