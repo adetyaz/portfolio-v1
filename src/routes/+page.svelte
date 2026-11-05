@@ -5,7 +5,7 @@
 	import TopBar from '$lib/components/TopBar.svelte';
 	import Preview from '$lib/components/Preview.svelte';
 	import RotatingText from '$lib/bits/RotatingText.svelte';
-	import { projects, alsoShipped } from '$lib/data/projects';
+	import { projects, alsoShipped, openSource } from '$lib/data/projects';
 	import { roles, skillGroups, useCases } from '$lib/data/profile';
 	import { game, SECRETS } from '$lib/game.svelte';
 
@@ -103,6 +103,25 @@
 								<span class="title">{p.title}</span>
 								<span class="desc">{p.tagline}</span>
 								<span class="meta">{p.date}<span class="arrow" aria-hidden="true">↗</span></span>
+							</a>
+						</li>
+					{/each}
+				</ul>
+				<p class="sub">Open source and experiments</p>
+				<ul class="rows">
+					{#each openSource as o (o.title)}
+						<li>
+							<a
+								class="row work"
+								href={o.href}
+								target="_blank"
+								rel="noreferrer"
+								onpointerenter={() => (preview = o.image)}
+								onpointerleave={() => (preview = null)}
+							>
+								<span class="title">{o.title}</span>
+								<span class="desc">{o.note}</span>
+								<span class="meta">{o.meta}<span class="arrow" aria-hidden="true">↗</span></span>
 							</a>
 						</li>
 					{/each}

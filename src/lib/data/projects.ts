@@ -10,6 +10,7 @@ import cyreneImg2 from '$lib/assets/images/works/cyrene-2.png';
 import erebrusImg from '$lib/assets/images/works/erebrus-1.png';
 import hailcubeImg from '$lib/assets/images/works/hailcube-1.png';
 import hailcubeImg2 from '$lib/assets/images/works/hailcube-2.png';
+import playgroundImg from '$lib/assets/images/works/playground.jpg';
 
 export type Tag = 'web3' | 'svelte' | 'react' | 'ai';
 
@@ -161,6 +162,31 @@ export const alsoShipped = [
 		title: 'MyriadFlow',
 		note: 'Phygital marketplace, creator launchpad and a WebXR showroom.',
 		stack: 'Next.js · WebXR'
+	}
+];
+
+/** Open source and personal work. Links go out; no case study page. */
+export const openSource = [
+	{
+		title: 'svelte-pasito',
+		note: 'A tiny, themeable fluid stepper for Svelte 5, published on npm. My port of pasito.',
+		meta: 'npm · demo',
+		href: 'https://svelte-pasito.vercel.app',
+		image: null as string | null
+	},
+	{
+		title: 'Svelte Bits',
+		note: 'Contributor. Ported CursorGrid, MaskedHeading and ScrollExpand from React Bits, all merged. More in review.',
+		meta: 'open source',
+		href: 'https://github.com/DavidHDev/svelte-bits/pulls?q=is%3Apr+author%3Aadetyaz',
+		image: null as string | null
+	},
+	{
+		title: 'Playground',
+		note: 'My lab. Nineteen motion studies in Svelte: 3D galleries, page transitions, text reveals.',
+		meta: 'GSAP · Motion',
+		href: 'https://github.com/adetyaz/svelte-playground',
+		image: playgroundImg as string | null
 	}
 ];
 

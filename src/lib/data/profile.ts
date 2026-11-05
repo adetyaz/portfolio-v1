@@ -117,10 +117,10 @@ export const skillGroups: SkillGroup[] = [
 		skills: [
 			{ name: 'React', usedIn: ['CyreneAI', 'Hailcube', 'Gemspread'] },
 			{ name: 'Next.js', usedIn: ['CyreneAI', 'Timbuktu', 'MyriadFlow', 'Erebrus', 'DirectEd'] },
-			{ name: 'Svelte', usedIn: ['Netsepio', 'FastAccs', 'CoinDrafts', 'this site'] },
+			{ name: 'Svelte', usedIn: ['Netsepio', 'FastAccs', 'CoinDrafts', 'svelte-pasito', 'Svelte Bits', 'this site'] },
 			{ name: 'SvelteKit', usedIn: ['FastAccs', 'this site'] },
 			{ name: 'TypeScript', usedIn: ['pretty much everything'] },
-			{ name: 'GSAP', usedIn: ['this site', 'old portfolio'] }
+			{ name: 'GSAP', usedIn: ['Playground', 'old portfolio'] }
 		]
 	},
 	{
