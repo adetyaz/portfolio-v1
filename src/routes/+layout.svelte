@@ -1,9 +1,8 @@
 <script lang="ts">
-	import favicon from '$lib/assets/favicon.ico';
 	import '../app.css';
-
-	import Lenis from '$lib/components/Lenis.svelte';
-	// import { theme } from '$lib/stores/theme';
+	import favicon from '$lib/assets/favicon.ico';
+	import Footer from '$lib/components/Footer.svelte';
+	import Secrets from '$lib/components/Secrets.svelte';
 
 	let { children } = $props();
 </script>
@@ -12,6 +11,15 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<Lenis>
+<main>
 	{@render children()}
-</Lenis>
+</main>
+
+<Footer />
+<Secrets />
+
+<style>
+	main {
+		min-height: 80vh;
+	}
+</style>

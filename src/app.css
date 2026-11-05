@@ -1,38 +1,78 @@
-/* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Aboreto&display=swap');
-
-/* Local Fonts */
 @font-face {
 	font-family: 'Neue Montreal';
 	src: url('./lib/assets/fonts/NeueMontreal-Regular.otf') format('opentype');
 	font-weight: 400;
-	font-style: normal;
+	font-display: swap;
 }
-
 @font-face {
 	font-family: 'Neue Montreal';
 	src: url('./lib/assets/fonts/NeueMontreal-Bold.otf') format('opentype');
 	font-weight: 700;
-	font-style: normal;
+	font-display: swap;
 }
 
 :root {
-	/* Dark Mode (Default) */
-	--color-bg: #111111;
-	--color-text: #ffffff;
-	--color-bg-alt: #1a1a1a;
-	--color-border: #333333;
+	--bg: #fcfcfb;
+	--ink: #171717;
+	--muted: #7a7a78;
+	--faint: #b4b4b1;
+	--line: #e8e8e5;
+	--hover: #f3f3f1;
+	--accent: #2b3bff;
+	--on-accent: #ffffff;
 
-	--font-heading: 'Aboreto', cursive;
-	--font-body: 'DM Sans', sans-serif;
+	--font: 'Neue Montreal', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	--col: 720px;
+	--gutter: clamp(20px, 5vw, 48px);
+	--ease: cubic-bezier(0.22, 1, 0.36, 1);
+	--spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+	color-scheme: light;
 }
 
-[data-theme="light"] {
-	--color-bg: #f3eefc;
-	--color-text: #111111;
-	--color-bg-alt: #eceaf5;
-	--color-border: #e0e0e0;
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		--bg: #121212;
+		--ink: #ededeb;
+		--muted: #8f8f8c;
+		--faint: #5a5a58;
+		--line: #262625;
+		--hover: #1b1b1a;
+		--accent: #7d88ff;
+		--on-accent: #0b0b0b;
+		color-scheme: dark;
+	}
+}
+:root[data-theme='dark'] {
+	--bg: #121212;
+	--ink: #ededeb;
+	--muted: #8f8f8c;
+	--faint: #5a5a58;
+	--line: #262625;
+	--hover: #1b1b1a;
+	--accent: #7d88ff;
+	--on-accent: #0b0b0b;
+	color-scheme: dark;
+}
+
+/* konami secret: blueprint */
+:root.blueprint {
+	--bg: #1b2fd6;
+	--ink: #ffffff;
+	--muted: #c9d0ff;
+	--faint: #8d9bff;
+	--line: rgba(255, 255, 255, 0.25);
+	--hover: #2238e0;
+	--accent: #ffffff;
+	--on-accent: #1b2fd6;
+}
+:root.blueprint body {
+	background-image:
+		linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+	background-size: 24px 24px;
+}
+:root.blueprint main * {
+	outline: 1px dashed rgba(255, 255, 255, 0.22);
 }
 
 *,
@@ -44,91 +84,70 @@
 }
 
 body {
-	font-family: var(--font-body);
-	background-color: var(--color-bg);
-	color: var(--color-text);
+	font-family: var(--font);
+	font-size: 17px;
 	line-height: 1.5;
+	color: var(--ink);
+	background: var(--bg);
 	-webkit-font-smoothing: antialiased;
-	min-height: 100vh;
-	position: relative;
-	overflow-x: hidden;
-}
-
-/* Custom Premium Scrollbar */
-::-webkit-scrollbar {
-	width: 6px;
-}
-
-::-webkit-scrollbar-track {
-	background: var(--color-bg);
-}
-
-::-webkit-scrollbar-thumb {
-	background: var(--color-text);
-	border-radius: 10px;
-	opacity: 0.3;
-}
-
-::-webkit-scrollbar-thumb:hover {
-	background: var(--color-text);
-}
-
-/* For Firefox */
-* {
-	scrollbar-width: thin;
-	scrollbar-color: var(--color-text) var(--color-bg);
-}
-
-/* Permanent Grainy Texture Overlay */
-body::after {
-	content: "";
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	pointer-events: none;
-	z-index: 9999;
-	opacity: 0.05;
-	background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-family: var(--font-heading);
-	text-transform: uppercase;
-	line-height: 1.1;
+	transition:
+		background-color 0.5s var(--ease),
+		color 0.5s var(--ease);
 }
 
 a {
-	text-decoration: none;
 	color: inherit;
+	text-decoration: none;
 }
-
-ul {
+img {
+	display: block;
+	max-width: 100%;
+}
+button {
+	font: inherit;
+	color: inherit;
+	background: none;
+	border: 0;
+	cursor: pointer;
+	text-align: inherit;
+}
+ul,
+ol {
 	list-style: none;
 }
 
-img {
-	max-width: 100%;
-	display: block;
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+	border-radius: 2px;
+}
+::selection {
+	background: var(--accent);
+	color: var(--on-accent);
 }
 
-/* View Transitions for Theme Toggle */
-::view-transition-old(root),
-::view-transition-new(root) {
-	animation: none;
-	mix-blend-mode: normal;
+.col {
+	width: 100%;
+	max-width: calc(var(--col) + 2 * var(--gutter));
+	margin-inline: auto;
+	padding-inline: var(--gutter);
 }
 
-::view-transition-old(root) {
-	z-index: 1;
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
 }
 
-::view-transition-new(root) {
-	z-index: 9999;
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
 }
